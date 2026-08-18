@@ -1,0 +1,348 @@
+:root {
+  --green: #2f9e6f;
+  --green-dark: #22794f;
+  --bg: #eef4f0;
+  --text: #333;
+  --heading-brown: #6b4226;
+  --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --sans: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ===== HEADER / TABS ===== */
+.header {
+  background: var(--green);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.tabs {
+  position: relative;
+  display: flex;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  padding: 1.1rem 1.5rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: color 0.25s ease, opacity 0.25s ease;
+  opacity: 0.85;
+}
+
+.tab-btn:hover {
+  opacity: 1;
+}
+
+.tab-btn.active {
+  opacity: 1;
+}
+
+/* animated sliding indicator */
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px 2px 0 0;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1),
+    width 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+.page-title {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  color: #444;
+  margin-bottom: 2rem;
+}
+
+.emoji {
+  font-size: 1.8rem;
+}
+
+/* ===== TAB PANELS with fade/slide transition ===== */
+.tab-panel {
+  display: none;
+  animation: fadeSlideIn 0.45s ease forwards;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== NATUREZA CONTENT ===== */
+.content-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* ===== GALERIA COM SCROLL SINCRONIZADO ===== */
+.media-col {
+  position: sticky;
+  top: 6rem;
+  display: flex;
+  gap: 0.6rem;
+  height: 420px; /* altura da "janela" visível */
+}
+
+.image-stack {
+  width: 260px;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+}
+
+/* as imagens ficam empilhadas verticalmente dentro do stack;
+   o JS aplica um translateY nesse wrapper para "rolar" a fileira
+   de imagens conforme o usuário rola o texto ao lado */
+.image-stack-inner {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.image-stack img {
+  width: 260px;
+  height: 420px; /* mesma altura da janela: uma imagem por vez ocupa o quadro */
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* barrinha de progresso ao lado da galeria, estilo "scrollbar" */
+.scroll-track {
+  width: 4px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--green);
+  border-radius: 2px;
+  will-change: transform, height;
+}
+
+.text-block article {
+  margin-bottom: 2rem;
+}
+
+.text-block h2 {
+  font-family: var(--serif);
+  color: var(--heading-brown);
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.text-block p {
+  margin-bottom: 0.9rem;
+  color: #444;
+  font-size: 0.98rem;
+}
+
+/* ===== FAQ ===== */
+.faq-list {
+  max-width: 750px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.faq-item {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 1.1rem 1.3rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--heading-brown);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-icon {
+  font-size: 1.4rem;
+  color: var(--green);
+  transition: transform 0.3s ease;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 1.3rem;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 300px;
+  padding: 0 1.3rem 1.2rem;
+}
+
+.faq-answer p {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* ===== CONTATO ===== */
+.contact-form {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--heading-brown);
+  gap: 0.4rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--green);
+}
+
+.submit-btn {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  padding: 0.85rem;
+  border-radius: 5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.submit-btn:hover {
+  background: var(--green-dark);
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.form-feedback {
+  font-size: 0.85rem;
+  color: var(--green-dark);
+  min-height: 1.2em;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 800px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .media-col {
+    position: static;
+    height: 260px;
+  }
+
+  .image-stack,
+  .image-stack img {
+    width: 100%;
+  }
+
+  .image-stack img {
+    height: 260px;
+  }
+}
+
+@media (max-width: 520px) {
+  .tab-btn {
+    padding: 0.9rem 0.8rem;
+    font-size: 0.72rem;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+  }
+
+  .container {
+    padding: 1.8rem 1rem 4rem;
+  }
+}
